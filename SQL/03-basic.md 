@@ -1,9 +1,10 @@
 # CTE 와 재귀 
 ## 재귀 CTE란?  
-* 트리구조나 계층 구조 데이터를 탐색할 때 주로 사용. 
-**ex) 댓글의 대댓글구조, 조직도, 카테고리 분류와 같은 상-하위 관계를 반복적으로 따라가야 하는 경우 
+* 트리구조나 계층 구조 데이터를 탐색할 때 주로 사용.  
+**ex) 댓글의 대댓글구조, 조직도, 카테고리 분류와 같은 상-하위 관계를 반복적으로 따라가야 하는 경우
+
 ## 기본구조 
-```````
+```sql
 WITH RECURSIVE cte_name AS (
     -- anchor member: 시작점(최상위 노드)
     SELECT ...
@@ -19,5 +20,64 @@ WITH RECURSIVE cte_name AS (
       ON t.manager_id = c.employee_id  -- 연결 조건
 )
 SELECT * FROM cte_name;
-``````
+```
 
+```
+
+```bash
+git add SQL/03-basic.md
+git commit -m "마크다운 코드 블럭 수정"
+git push origin main
+```WITH product_sales AS (
+	SELECT
+		p.category AS 카테고리,
+		p.product_name AS 제품명,
+		p.price AS 상품가격,
+		SUM(o.quantity) AS 총판매량,
+		SUM(o.amount) AS 총매출액,
+		COUNT(o.order_id) AS 주문건수,
+		AVG(o.amount) AS 평균주문금액
+	FROM products p
+	LEFT JOIN orders o ON p.product_id=o.product_id
+	GROUP BY p.category, p.product_name, p.price
+)
+SELECT
+	카테고리,
+	제품명,
+	총판매량,
+	총매출액,
+	ROUND(평균주문금액) AS 평균주문금액,
+	주문건수,
+	상품가격
+FROM product_sales
+ORDER BY 카테고리, 총매출액 DESC;
+
+
+-- 카테고리별 매출 비중 분석
+WITH product_sales AS (
+	SELECT
+		p.category AS 카테고리,
+		p.product_name AS 제품명,
+		p.price AS 상품가격,
+		SUM(o.quantity) AS 총판매량,
+		SUM(o.amount) AS 제품총매출액,
+		COUNT(o.order_id) AS 주문건수,
+		AVG(o.amount) AS 평균주문금액
+	FROM products p
+	LEFT JOIN orders o ON p.product_id=o.product_id
+	GROUP BY p.category, p.product_name, p.price
+),
+category_total AS (
+	SELECT
+		카테고리,
+		SUM(제품총매출액) AS 카테고리총매출액
+	FROM product_sales
+	GROUP BY 카테고리
+)
+SELECT
+	ps.카테고리,
+	ps.제품명,
+	ROUND(ps.제품총매출액 * 100 / ct.카테고리총매출액, 2) AS 카테고리매출비중
+FROM product_sales ps
+INNER JOIN category_total ct ON ps.카테고리=ct.카테고리
+ORDER BY ps.카테고리, ps.제품총매출액 DESC;
