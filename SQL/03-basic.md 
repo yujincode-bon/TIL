@@ -1,0 +1,23 @@
+# CTE 와 재귀 
+## 재귀 CTE란?  
+* 트리구조나 계층 구조 데이터를 탐색할 때 주로 사용. 
+**ex) 댓글의 대댓글구조, 조직도, 카테고리 분류와 같은 상-하위 관계를 반복적으로 따라가야 하는 경우 
+## 기본구조 
+```````
+WITH RECURSIVE cte_name AS (
+    -- anchor member: 시작점(최상위 노드)
+    SELECT ...
+    FROM table
+    WHERE 조건 -- 예: manager_id IS NULL
+
+    UNION ALL
+
+    -- recursive member: 자기 자신을 다시 참조
+    SELECT ...
+    FROM table AS t
+    JOIN cte_name AS c
+      ON t.manager_id = c.employee_id  -- 연결 조건
+)
+SELECT * FROM cte_name;
+``````
+
