@@ -48,3 +48,4 @@ SELECT * FROM users WHERE name = '홍길동';
 SELECT * FROM users WHERE age = 30;  -- name이 빠졌기 때문
  ``
 
+마크다운 수정 
