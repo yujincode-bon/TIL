@@ -23,7 +23,7 @@ SELECT * FROM cte_name;
 ```
 
 ```
-
+마크다운
 ```bash
 git add SQL/03-basic.md
 git commit -m "마크다운 코드 블럭 수정"
