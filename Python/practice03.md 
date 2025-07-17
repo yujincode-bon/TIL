@@ -1,0 +1,67 @@
+
+
+## 실전문제로 복습 
+
+```
+#144번 
+ani = ['dog', 'cat', 'parrot']
+#print(len(0)) #오류발생원인:  len()은 함수인데, int 값인 0 에 길이 개념없음 
+for i in ani:
+    print(len(i)) 
+
+#gpt로 수정된답
+#print(len(ani(0))) 리스트는 함수처럼 쓸 수 없음 
+
+```
+# 155 
+#대문자만 화면에 출력 
+리스트 = ["A", "b", "c", "D"]
+
+# for i in 리스트: 
+#     #print(리스트.isupper()) ## 출력 실패 변수.upper은 문자열만 사용가능함순데 지금 리스트에 대해 사용해버림 
+
+#     if i.isupper():
+#            print(i)
+
+#gpt가 수정한 예시 
+for i in 리스트:
+      ## print(i.isupper()) TF 형식으로 값을 반환함
+
+    if i.isupper():
+        print(i)
+
+
+```
+
+```
+# 157 
+리스트 = ['dog', 'cat', 'parrot']
+
+for i in 리스트: 
+    print(i[0].upper()) #replace는 문자열에만 쓰는 메서드임 
+    # replace 사용법 '문자열'.replace("바꿀내용", "새내용")
+
+# 올바른 코드 
+for i in 리스트:
+     i = i[0].upper() + i[1:]
+     print(i) #앞글자만 대문자 +나머지 그대로 
+
+```
+
+```
+# 158
+리스트 = ['hello.py', 'ex01.py', 'intro.hwp']
+# for i in 리스트:
+#     print i 
+#     del([::3]) ## 오류
+
+for i in 리스트:
+    이름 = i. split('.')[0] #split을 활용해서 ()안 조건을 기준으로 값을 나눈다. 
+    print(이름)
+
+# 실제 답
+for i in 리스트:
+        split = i.split(".")
+        print(split[0])
+
+```
